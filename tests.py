@@ -12,10 +12,10 @@ class WebTestCase(unittest.TestCase):
             [
                 "python",
                 "http_server.py"
-                ],
+            ],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
-            )
+        )
 
     def tearDown(self):
         self.server_process.kill()
@@ -44,6 +44,9 @@ class WebTestCase(unittest.TestCase):
         conn.request('POST', '/')
 
         response = conn.getresponse()
+
+        # print(response.read())
+        # print(response.getcode())
 
         conn.close()
 
@@ -78,8 +81,7 @@ class WebTestCase(unittest.TestCase):
         response = self.get_response(web_path)
 
         self.assertEqual(response.getcode(), 200, error_comment)
-        self.assertEqual(response.getheader('Content-Type'), 'text/plain',
-                         error_comment)
+        self.assertEqual(response.getheader('Content-Type'), 'text/plain', error_comment)
 
     def test_get_sample_scene_balls_jpeg(self):
         """
@@ -110,8 +112,7 @@ class WebTestCase(unittest.TestCase):
         response = self.get_response(web_path)
 
         self.assertEqual(response.getcode(), 200, error_comment)
-        self.assertEqual(response.getheader('Content-Type'), 'image/jpeg',
-                         error_comment)
+        self.assertEqual(response.getheader('Content-Type'), 'image/jpeg', error_comment)
 
     def test_get_sample_1_png(self):
         """
@@ -142,19 +143,18 @@ class WebTestCase(unittest.TestCase):
         response = self.get_response(web_path)
 
         self.assertEqual(response.getcode(), 200, error_comment)
-        self.assertEqual(response.getheader('Content-Type'), 'image/png',
-                         error_comment)
+        self.assertEqual(response.getheader('Content-Type'), 'image/png', error_comment)
 
     def test_get_404(self):
         """
         A call to /asdf.txt (a file which does not exist in webroot) yields a 404 error
         """
         file = 'asdf.txt'
-
         web_path = '/' + file
         error_comment = "Error encountered while visiting " + web_path
-
         response = self.get_response(web_path)
+
+        # print(response.read())
 
         self.assertEqual(response.getcode(), 404, error_comment)
 
